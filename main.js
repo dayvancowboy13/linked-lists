@@ -13,13 +13,12 @@ class Node {
 
 class LinkedList {
 
-    constructor() {
+    head = null;
 
-        this.head = null;
-        this.tail = null;
-        this.size = 0;
+    tail = null;
 
-    }
+    size = 0;
+
 
     append(value) {
 
@@ -60,15 +59,171 @@ class LinkedList {
     }
 
     at(index) {
-        // return the node at provided index
+
+        // return the NODE at provided index
+
+        // starting at the head, loop through until reach size index
+        if (index <= this.size && index > 0) {
+
+            let currentNode = this.head;
+            for (let i = 1; i <= index; i++) {
+
+                if (i === index) return currentNode;
+                else {
+
+                    currentNode = currentNode.nextNode;
+                    // currentNode = temp;
+
+                }
+
+            }
+
+        } else {
+
+            console.log('Invalid index value!');
+            return null;
+
+        }
 
     }
 
     pop() {
 
         if (this.size !== 0) {
-            // probably have to use the at() function
+
+            if (this.size === 1) {
+
+                this.head = null;
+                this.tail = null;
+
+            } else {
+
+                let secondLastNode = this.at(this.size - 1);
+                secondLastNode.nextNode = null;
+                this.tail = secondLastNode;
+
+            }
+            this.size--;
+
+        } else console.log('Cannot pop from empty list!');
+
+    }
+
+    contains(value) {
+
+        // returns true if there is a node with the value
+
+        let currentNode = this.head;
+        for (let i = 1; i <= this.size; i++) {
+
+            if (currentNode.value === value) return true;
+            else {
+
+                currentNode = currentNode.nextNode;
+
+            }
+
         }
+
+        return false;
+
+    }
+
+    find(value) {
+
+        // returns true if there is a node with the value
+
+        let currentNode = this.head;
+        for (let i = 1; i <= this.size; i++) {
+
+            if (currentNode.value === value) return i;
+            else {
+
+                currentNode = currentNode.nextNode;
+
+            }
+
+        }
+
+        return null;
+
+    }
+
+    toString() {
+
+        let listString = '';
+        let currentNode = this.head;
+
+        for (let i = 1; i <= this.size; i++) {
+
+            listString += `( ${currentNode.value} ) -> `;
+            if (currentNode.nextNode === null) {
+
+                listString += 'null';
+                break;
+
+            }
+
+            currentNode = currentNode.nextNode;
+
+        }
+
+        return listString;
+
+    }
+
+    insertAt(value, index) {
+
+        let node = new Node(value);
+
+        if (index === 1) {
+
+            node.nextNode = this.head;
+            this.head = node;
+
+        } else if (index > this.size) {
+
+            console.log('Invalid index!');
+            return;
+
+        } else {
+
+            let nodeBeforeInsert = this.at(index - 1);
+            node.nextNode = nodeBeforeInsert.nextNode;
+            nodeBeforeInsert.nextNode = node;
+
+        }
+        this.size++;
+
+    }
+
+    removeAt(index) {
+
+        if (index === 1) {
+
+            if (this.size === 1) {
+
+                this.head = null;
+                this.tail = null;
+
+            } else {
+
+                this.head = this.head.nextNode;
+
+            }
+
+        } else if (index > this.size) {
+
+            console.log('Invalid index!');
+            return;
+
+        } else {
+
+            let nodeBeforeIndex = this.at(index - 1);
+            nodeBeforeIndex.nextNode = nodeBeforeIndex.nextNode.nextNode;
+
+        }
+        this.size--;
 
     }
 
@@ -78,9 +233,21 @@ class LinkedList {
 
     }
 
+    set size(value) {
+
+        this.size = value;
+
+    }
+
     get head() {
 
         return this.head;
+
+    }
+
+    set head(value) {
+
+        this.head = value;
 
     }
 
@@ -90,16 +257,45 @@ class LinkedList {
 
     }
 
+    set tail(value) {
+
+        this.tail = value;
+
+    }
+
 }
 
-const l1 = new LinkedList();
+// /////// TEST CODE :) //////////
+
+l1.append(4);
 l1.append(1);
 l1.append(2);
 l1.append(3);
-l1.append(4);
 
-console.log(l1);
+console.log(l1.toString());
 
-l1.prepend(5);
+l1.insertAt('banana', 3);
+console.log(l1.toString());
+l1.insertAt('55', 7);
+console.log(l1.toString());
+l1.removeAt(5);
+console.log(l1.toString());
 
-console.log(l1);
+
+// console.log(l1);
+// l1.pop();
+// console.log(l1);
+// l1.pop();
+// console.log(l1);
+// l1.pop();
+// console.log(l1);
+// l1.pop();
+// console.log(l1);
+// l1.pop();
+// console.log(l1);
+
+// l1.prepend(5);
+
+// console.log(l1);
+
+// console.log(l1.at(3));
